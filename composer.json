@@ -18,7 +18,7 @@
         "squizlabs/php_codesniffer": "2.*"
     },
     "autoload": {
-        "psr-4": { "Proyecto404\\UtilBundle\\": "" }
+        "psr-0": { "Proyecto404CodingStandard\\": "" }
     },
     "minimum-stability": "dev",
     "extra": {
