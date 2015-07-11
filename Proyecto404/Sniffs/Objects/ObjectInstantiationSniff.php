@@ -14,9 +14,9 @@
  */
 
 /**
- * Symfony2_Sniffs_Classes_PropertyDeclarationSniff.
+ * Proyecto404CodingStandard_Sniffs_Objects_ObjectInstantiationSniff.
  *
- * Throws warnings if properties are declared after methods
+ * Throws a warning if an object isn't instantiated using parenthesis.
  *
  * @category PHP
  * @package  PHP_CodeSniffer-Symfony2
@@ -24,17 +24,17 @@
  * @license  http://spdx.org/licenses/MIT MIT License
  * @link     https://github.com/escapestudios/Symfony2-coding-standard
  */
-class Proyecto404CodingStandard_Sniffs_Classes_PropertyDeclarationSniff implements PHP_CodeSniffer_Sniff
+class Proyecto404_Sniffs_Objects_ObjectInstantiationSniff implements PHP_CodeSniffer_Sniff
 {
-
     /**
      * A list of tokenizers this sniff supports.
      *
      * @var array
      */
     public $supportedTokenizers = array(
-        'PHP',
-    );
+                                   'PHP',
+                                  );
+
 
     /**
      * Returns an array of tokens this test wants to listen for.
@@ -44,8 +44,9 @@ class Proyecto404CodingStandard_Sniffs_Classes_PropertyDeclarationSniff implemen
     public function register()
     {
         return array(
-            T_CLASS,
-        );
+                T_NEW,
+               );
+
     }//end register()
 
     /**
@@ -60,25 +61,31 @@ class Proyecto404CodingStandard_Sniffs_Classes_PropertyDeclarationSniff implemen
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
-        $scope = $phpcsFile->findNext(T_FUNCTION, $stackPtr, $tokens[$stackPtr]['scope_closer']);
-
-        $wantedTokens = array(
-            T_PUBLIC,
-            T_PROTECTED,
-            T_PRIVATE
+        $allowed = array(
+            T_STRING,
+            T_NS_SEPARATOR,
         );
 
-        while ($scope) {
-            $scope = $phpcsFile->findNext($wantedTokens, $scope + 1, $tokens[$stackPtr]['scope_closer']);
+        $object = $stackPtr;
+        $line   = $tokens[$object]['line'];
 
-            if ($scope && $tokens[$scope + 2]['code'] === T_VARIABLE) {
-                $phpcsFile->addError(
-                    'Declare class properties before methods',
-                    $scope,
-                    'Invalid'
-                );
+        while ($object && $tokens[$object]['line'] === $line) {
+            $object = $phpcsFile->findNext($allowed, $object + 1);
+
+            if ($tokens[$object]['line'] === $line && !in_array($tokens[$object + 1]['code'], $allowed)) {
+                if ($tokens[$object + 1]['code'] !== T_OPEN_PARENTHESIS) {
+                    $phpcsFile->addError(
+                        'Use parentheses when instantiating classes',
+                        $stackPtr,
+                        'Invalid'
+                    );
+                }
+
+                break;
             }
         }
+
     }//end process()
 
 }//end class
+

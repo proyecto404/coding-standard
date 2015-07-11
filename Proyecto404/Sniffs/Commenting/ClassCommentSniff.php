@@ -47,7 +47,7 @@ if (class_exists('PEAR_Sniffs_Commenting_ClassCommentSniff', true) === false) {
  * @version   Release: 1.3.0RC2
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Proyecto404CodingStandard_Sniffs_Commenting_ClassCommentSniff extends PEAR_Sniffs_Commenting_ClassCommentSniff
+class Proyecto404_Sniffs_Commenting_ClassCommentSniff extends PEAR_Sniffs_Commenting_ClassCommentSniff
 {
     /**
      * Tags in correct order and related info.

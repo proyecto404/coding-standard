@@ -5,8 +5,6 @@
     <!-- There should not be any code in the bundle Resources directory. -->
     <exclude-pattern>*/Resources/*</exclude-pattern>
 
-    <exclude-pattern>*/Proyecto404CodingStandard/*</exclude-pattern>
-
     <!-- Symfony follows the standards defined in the PSR-0, PSR-1 and PSR-2 documents. -->
 
     <!-- Include the whole PSR-1 standard -->
@@ -79,14 +77,14 @@
         </properties>
     </rule>
 
-    <rule ref="Proyecto404CodingStandard.Commenting.FunctionComment.Missing">
+    <rule ref="Proyecto404.Commenting.FunctionComment.Missing">
         <exclude-pattern>*/DataFixtures/*</exclude-pattern>
         <exclude-pattern>*/Tests/Functional/*</exclude-pattern>
         <exclude-pattern>*/Tests/Unit/*</exclude-pattern>
         <exclude-pattern>*/Tests/Entity/*</exclude-pattern>
     </rule>
 
-    <rule ref="Proyecto404CodingStandard.Commenting.ClassComment.Missing">
+    <rule ref="Proyecto404.Commenting.ClassComment.Missing">
         <exclude-pattern>*/DataFixtures/*</exclude-pattern>
         <exclude-pattern>*/Tests/Functional/*</exclude-pattern>
         <exclude-pattern>*/Tests/Unit/*</exclude-pattern>
@@ -112,23 +110,23 @@
         <severity>0</severity>
     </rule>
 
-    <rule ref="Proyecto404CodingStandard.Commenting.FunctionComment.MissingParamComment">
+    <rule ref="Proyecto404.Commenting.FunctionComment.MissingParamComment">
         <severity>0</severity>
     </rule>
 
-    <rule ref="Proyecto404CodingStandard.Commenting.FunctionComment.ParameterCommentsNotAligned">
+    <rule ref="Proyecto404.Commenting.FunctionComment.ParameterCommentsNotAligned">
         <severity>0</severity>
     </rule>
 
-    <rule ref="Proyecto404CodingStandard.Commenting.FunctionComment.SpacingBeforeParams">
+    <rule ref="Proyecto404.Commenting.FunctionComment.SpacingBeforeParams">
         <severity>0</severity>
     </rule>
 
-    <rule ref="Proyecto404CodingStandard.Commenting.FunctionComment.SpacingBeforeTags">
+    <rule ref="Proyecto404.Commenting.FunctionComment.SpacingBeforeTags">
         <severity>0</severity>
     </rule>
 
-    <rule ref="Proyecto404CodingStandard.Commenting.ClassComment.SpacingBeforeTags">
+    <rule ref="Proyecto404.Commenting.ClassComment.SpacingBeforeTags">
         <message>There should always be a description, followed by a blank line, before the tags of a class comment.</message>
         <severity>0</severity>
     </rule>

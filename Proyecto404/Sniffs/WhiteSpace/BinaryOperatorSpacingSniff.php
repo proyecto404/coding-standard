@@ -14,9 +14,9 @@
  */
 
 /**
- * Proyecto404CodingStandard_Sniffs_WhiteSpace_CommaSpacingSniff.
+ * Proyecto404CodingStandard_Sniffs_WhiteSpace_BinaryOperatorSpacingSniff.
  *
- * Throws warnings if comma isn't followed by a whitespace.
+ * Throws warnings if a binary operator isn't surrounded with whitespace.
  *
  * @category PHP
  * @package  PHP_CodeSniffer-Symfony2
@@ -24,7 +24,7 @@
  * @license  http://spdx.org/licenses/MIT MIT License
  * @link     https://github.com/escapestudios/Symfony2-coding-standard
  */
-class Proyecto404CodingStandard_Sniffs_WhiteSpace_CommaSpacingSniff implements PHP_CodeSniffer_Sniff
+class Proyecto404_Sniffs_WhiteSpace_BinaryOperatorSpacingSniff
 {
     /**
      * A list of tokenizers this sniff supports.
@@ -32,9 +32,8 @@ class Proyecto404CodingStandard_Sniffs_WhiteSpace_CommaSpacingSniff implements P
      * @var array
      */
     public $supportedTokenizers = array(
-        'PHP',
-    );
-
+                                   'PHP',
+                                  );
 
     /**
      * Returns an array of tokens this test wants to listen for.
@@ -43,9 +42,7 @@ class Proyecto404CodingStandard_Sniffs_WhiteSpace_CommaSpacingSniff implements P
      */
     public function register()
     {
-        return array(
-            T_COMMA,
-        );
+        return PHP_CodeSniffer_Tokens::$comparisonTokens;
 
     }//end register()
 
@@ -61,17 +58,14 @@ class Proyecto404CodingStandard_Sniffs_WhiteSpace_CommaSpacingSniff implements P
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
-        $line   = $tokens[$stackPtr]['line'];
 
-        if ($tokens[$stackPtr + 1]['line'] === $line && $tokens[$stackPtr + 1]['code'] !== T_WHITESPACE) {
+        if ($tokens[$stackPtr -1]['code'] !== T_WHITESPACE || $tokens[$stackPtr +1]['code'] !== T_WHITESPACE) {
             $phpcsFile->addError(
-                'Add a single space after each comma delimiter',
+                'Add a single space around binary operators',
                 $stackPtr,
                 'Invalid'
             );
         }
-
     }//end process()
 
 }//end class
-

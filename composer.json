@@ -1,7 +1,8 @@
 {
     "name": "proyecto404/coding-standard",
     "description": "404's PHP Code Sniffer Coding Standard",
-    "keywords": ["php code sniffer", "coding standard"],
+    "type": "coding-standard",
+    "keywords": ["php code sniffer", "coding standard", "phpcs"],
     "homepage": "https://github.com/proyecto404/Proyecto404CodingStandard",
     "license": "MIT",
     "authors": [
@@ -16,9 +17,6 @@
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "2.*"
-    },
-    "autoload": {
-        "psr-0": { "Proyecto404CodingStandard\\": "" }
     },
     "minimum-stability": "dev",
     "extra": {

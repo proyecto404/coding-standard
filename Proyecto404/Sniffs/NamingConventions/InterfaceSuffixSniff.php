@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the Symfony2-coding-standard (phpcs standard)
  *
@@ -14,11 +13,11 @@
  */
 
 /**
- * Symfony2_Sniffs_Classes_MultipleClassesOneFileSniff.
+ * Proyecto404CodingStandard_Sniffs_NamingConventions_InterfaceSuffixSniff.
  *
- * Throws errors if multiple classes are defined in a single file.
+ * Throws errors if interface names are not suffixed with "Interface".
  *
- * Symfony coding standard specifies: "Define one class per file;"
+ * Symfony coding standard specifies: "Suffix interfaces with Interface;"
  *
  * @category PHP
  * @package  PHP_CodeSniffer-Symfony2
@@ -26,22 +25,8 @@
  * @license  http://spdx.org/licenses/MIT MIT License
  * @link     https://github.com/opensky/Symfony2-coding-standard
  */
-class Proyecto404CodingStandard_Sniffs_Classes_MultipleClassesOneFileSniff implements PHP_CodeSniffer_Sniff
+class Proyecto404_Sniffs_NamingConventions_InterfaceSuffixSniff implements PHP_CodeSniffer_Sniff
 {
-    /**
-     * The number of times the T_CLASS token is encountered in the file.
-     *
-     * @var int
-     */
-    protected $classCount = 0;
-
-    /**
-     * The current file this class is operating on.
-     *
-     * @var string
-     */
-    protected $currentFile;
-
     /**
      * A list of tokenizers this sniff supports.
      *
@@ -58,7 +43,7 @@ class Proyecto404CodingStandard_Sniffs_Classes_MultipleClassesOneFileSniff imple
      */
     public function register()
     {
-        return array(T_CLASS);
+        return array(T_INTERFACE);
     }
 
     /**
@@ -72,18 +57,20 @@ class Proyecto404CodingStandard_Sniffs_Classes_MultipleClassesOneFileSniff imple
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        if ($this->currentFile !== $phpcsFile->getFilename()) {
-            $this->classCount  = 0;
-            $this->currentFile = $phpcsFile->getFilename();
-        }
+        $tokens   = $phpcsFile->getTokens();
+        $line     = $tokens[$stackPtr]['line'];
 
-        $this->classCount++;
-
-        if ($this->classCount > 1) {
-            $phpcsFile->addError(
-                'Multiple classes defined in a single file',
-                $stackPtr
-            );
+        while ($tokens[$stackPtr]['line'] == $line) {
+            if ('T_STRING' == $tokens[$stackPtr]['type']) {
+                if (substr($tokens[$stackPtr]['content'], -9) != 'Interface') {
+                    $phpcsFile->addError(
+                        'Interface name is not suffixed with "Interface"',
+                        $stackPtr
+                    );
+                }
+                break;
+            }
+            $stackPtr++;
         }
 
         return;

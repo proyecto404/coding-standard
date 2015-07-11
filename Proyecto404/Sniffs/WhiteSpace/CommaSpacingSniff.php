@@ -14,9 +14,9 @@
  */
 
 /**
- * Proyecto404CodingStandard_Sniffs_Objects_ObjectInstantiationSniff.
+ * Proyecto404CodingStandard_Sniffs_WhiteSpace_CommaSpacingSniff.
  *
- * Throws a warning if an object isn't instantiated using parenthesis.
+ * Throws warnings if comma isn't followed by a whitespace.
  *
  * @category PHP
  * @package  PHP_CodeSniffer-Symfony2
@@ -24,7 +24,7 @@
  * @license  http://spdx.org/licenses/MIT MIT License
  * @link     https://github.com/escapestudios/Symfony2-coding-standard
  */
-class Proyecto404CodingStandard_Sniffs_Objects_ObjectInstantiationSniff implements PHP_CodeSniffer_Sniff
+class Proyecto404_Sniffs_WhiteSpace_CommaSpacingSniff implements PHP_CodeSniffer_Sniff
 {
     /**
      * A list of tokenizers this sniff supports.
@@ -32,8 +32,8 @@ class Proyecto404CodingStandard_Sniffs_Objects_ObjectInstantiationSniff implemen
      * @var array
      */
     public $supportedTokenizers = array(
-                                   'PHP',
-                                  );
+        'PHP',
+    );
 
 
     /**
@@ -44,8 +44,8 @@ class Proyecto404CodingStandard_Sniffs_Objects_ObjectInstantiationSniff implemen
     public function register()
     {
         return array(
-                T_NEW,
-               );
+            T_COMMA,
+        );
 
     }//end register()
 
@@ -61,28 +61,14 @@ class Proyecto404CodingStandard_Sniffs_Objects_ObjectInstantiationSniff implemen
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
-        $allowed = array(
-            T_STRING,
-            T_NS_SEPARATOR,
-        );
+        $line   = $tokens[$stackPtr]['line'];
 
-        $object = $stackPtr;
-        $line   = $tokens[$object]['line'];
-
-        while ($object && $tokens[$object]['line'] === $line) {
-            $object = $phpcsFile->findNext($allowed, $object + 1);
-
-            if ($tokens[$object]['line'] === $line && !in_array($tokens[$object + 1]['code'], $allowed)) {
-                if ($tokens[$object + 1]['code'] !== T_OPEN_PARENTHESIS) {
-                    $phpcsFile->addError(
-                        'Use parentheses when instantiating classes',
-                        $stackPtr,
-                        'Invalid'
-                    );
-                }
-
-                break;
-            }
+        if ($tokens[$stackPtr + 1]['line'] === $line && $tokens[$stackPtr + 1]['code'] !== T_WHITESPACE) {
+            $phpcsFile->addError(
+                'Add a single space after each comma delimiter',
+                $stackPtr,
+                'Invalid'
+            );
         }
 
     }//end process()

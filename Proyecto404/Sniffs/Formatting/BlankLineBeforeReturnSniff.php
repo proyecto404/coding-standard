@@ -26,7 +26,7 @@
  * @license  http://spdx.org/licenses/MIT MIT License
  * @link     https://github.com/opensky/Symfony2-coding-standard
  */
-class Proyecto404CodingStandard_Sniffs_Formatting_BlankLineBeforeReturnSniff implements PHP_CodeSniffer_Sniff
+class Proyecto404_Sniffs_Formatting_BlankLineBeforeReturnSniff implements PHP_CodeSniffer_Sniff
 {
     /**
      * A list of tokenizers this sniff supports.

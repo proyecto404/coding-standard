@@ -24,7 +24,7 @@
  * @license  http://spdx.org/licenses/MIT MIT License
  * @link     https://github.com/escapestudios/Symfony2-coding-standard
  */
-class Proyecto404CodingStandard_Sniffs_NamingConventions_ValidClassNameSniff implements PHP_CodeSniffer_Sniff
+class Proyecto404_Sniffs_NamingConventions_ValidClassNameSniff implements PHP_CodeSniffer_Sniff
 {
     /**
      * A list of tokenizers this sniff supports.

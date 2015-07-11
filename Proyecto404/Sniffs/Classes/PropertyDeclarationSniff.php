@@ -14,7 +14,7 @@
  */
 
 /**
- * Proyecto404CodingStandard_Sniffs_Functions_ScopeOrderSniff.
+ * Symfony2_Sniffs_Classes_PropertyDeclarationSniff.
  *
  * Throws warnings if properties are declared after methods
  *
@@ -24,7 +24,7 @@
  * @license  http://spdx.org/licenses/MIT MIT License
  * @link     https://github.com/escapestudios/Symfony2-coding-standard
  */
-class Proyecto404CodingStandard_Sniffs_Functions_ScopeOrderSniff implements PHP_CodeSniffer_Sniff
+class Proyecto404_Sniffs_Classes_PropertyDeclarationSniff implements PHP_CodeSniffer_Sniff
 {
 
     /**
@@ -45,7 +45,6 @@ class Proyecto404CodingStandard_Sniffs_Functions_ScopeOrderSniff implements PHP_
     {
         return array(
             T_CLASS,
-            T_INTERFACE,
         );
     }//end register()
 
@@ -61,41 +60,23 @@ class Proyecto404CodingStandard_Sniffs_Functions_ScopeOrderSniff implements PHP_
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
-        $function = $stackPtr;
+        $scope = $phpcsFile->findNext(T_FUNCTION, $stackPtr, $tokens[$stackPtr]['scope_closer']);
 
-        $scopes = array(
-            0 => T_PUBLIC,
-            1 => T_PROTECTED,
-            2 => T_PRIVATE,
+        $wantedTokens = array(
+            T_PUBLIC,
+            T_PROTECTED,
+            T_PRIVATE
         );
 
-        $whitelisted = array(
-            '__construct',
-            'setUp',
-            'tearDown',
-        );
+        while ($scope) {
+            $scope = $phpcsFile->findNext($wantedTokens, $scope + 1, $tokens[$stackPtr]['scope_closer']);
 
-        while ($function) {
-            $function = $phpcsFile->findNext(T_FUNCTION, $function + 1, $tokens[$stackPtr]['scope_closer']);
-
-            if (isset($tokens[$function]['parenthesis_opener'])) {
-                $scope = $phpcsFile->findPrevious($scopes, $function -1, $stackPtr);
-                $name = $phpcsFile->findNext(T_STRING, $function + 1, $tokens[$function]['parenthesis_opener']);
-
-                if ($scope && $name && !in_array($tokens[$name]['content'], $whitelisted)) {
-                    $current = array_keys($scopes,  $tokens[$scope]['code']);
-                    $current = $current[0];
-
-                    if (isset($previous) && $current < $previous) {
-                        $phpcsFile->addError(
-                            'Declare public methods first, then protected ones and finally private ones',
-                            $scope,
-                            'Invalid'
-                        );
-                    }
-
-                    $previous = $current;
-                }
+            if ($scope && $tokens[$scope + 2]['code'] === T_VARIABLE) {
+                $phpcsFile->addError(
+                    'Declare class properties before methods',
+                    $scope,
+                    'Invalid'
+                );
             }
         }
     }//end process()

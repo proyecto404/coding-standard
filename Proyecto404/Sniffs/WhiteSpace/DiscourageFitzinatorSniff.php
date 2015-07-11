@@ -13,28 +13,30 @@
  */
 
 /**
- * Proyecto404CodingStandard_Sniffs_NamingConventions_InterfaceSuffixSniff.
+ * Proyecto404CodingStandard_Sniffs_WhiteSpace_DiscourageFitzinatorSniff.
  *
- * Throws errors if interface names are not suffixed with "Interface".
- *
- * Symfony coding standard specifies: "Suffix interfaces with Interface;"
+ * Throws warnings if a file contains trailing whitespace.
  *
  * @category PHP
  * @package  PHP_CodeSniffer-Symfony2
- * @author   Dave Hauenstein <davehauenstein@gmail.com>
+ * @author   Justin Hileman <justin@shopopensky.com>
  * @license  http://spdx.org/licenses/MIT MIT License
  * @link     https://github.com/opensky/Symfony2-coding-standard
  */
-class Proyecto404CodingStandard_Sniffs_NamingConventions_InterfaceSuffixSniff implements PHP_CodeSniffer_Sniff
+class Proyecto404_Sniffs_WhiteSpace_DiscourageFitzinatorSniff implements PHP_CodeSniffer_Sniff
 {
+
     /**
      * A list of tokenizers this sniff supports.
      *
      * @var array
      */
     public $supportedTokenizers = array(
-        'PHP',
-    );
+                                   'PHP',
+                                   'JS',
+                                   'CSS',
+                                  );
+
 
     /**
      * Returns an array of tokens this test wants to listen for.
@@ -43,8 +45,10 @@ class Proyecto404CodingStandard_Sniffs_NamingConventions_InterfaceSuffixSniff im
      */
     public function register()
     {
-        return array(T_INTERFACE);
+        return array(T_WHITESPACE);
+
     }
+
 
     /**
      * Processes this test, when one of its tokens is encountered.
@@ -57,22 +61,19 @@ class Proyecto404CodingStandard_Sniffs_NamingConventions_InterfaceSuffixSniff im
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $tokens   = $phpcsFile->getTokens();
-        $line     = $tokens[$stackPtr]['line'];
+        $tokens = $phpcsFile->getTokens();
 
-        while ($tokens[$stackPtr]['line'] == $line) {
-            if ('T_STRING' == $tokens[$stackPtr]['type']) {
-                if (substr($tokens[$stackPtr]['content'], -9) != 'Interface') {
-                    $phpcsFile->addError(
-                        'Interface name is not suffixed with "Interface"',
-                        $stackPtr
-                    );
-                }
-                break;
-            }
-            $stackPtr++;
+        // Make sure this is trailing whitespace.
+        $line = $tokens[$stackPtr]['line'];
+        if (($stackPtr < count($tokens) - 1) && $tokens[($stackPtr + 1)]['line'] === $line) {
+            return;
         }
 
-        return;
+        if (strpos($tokens[$stackPtr]['content'], "\n") > 0 || strpos($tokens[$stackPtr]['content'], "\r") > 0) {
+            $warning = 'Please trim any trailing whitespace';
+            $phpcsFile->addWarning($warning, $stackPtr);
+        }
+
     }
+
 }

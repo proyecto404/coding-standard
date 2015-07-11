@@ -30,7 +30,7 @@ if (class_exists('PHP_CodeSniffer_Standards_AbstractScopeSniff', true) === false
  * @version   Release: 1.3.0
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Proyecto404CodingStandard_Sniffs_Scope_MethodScopeSniff extends PHP_CodeSniffer_Standards_AbstractScopeSniff
+class Proyecto404_Sniffs_Scope_MethodScopeSniff extends PHP_CodeSniffer_Standards_AbstractScopeSniff
 {
     /**
      * Constructs a Proyecto404CodingStandard_Sniffs_Scope_MethodScopeSniff.
